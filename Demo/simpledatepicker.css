@@ -1,13 +1,12 @@
 div.calendarContainer
 {
 	position: absolute;
-	
+	padding: 0;
 	width:200px;
 	min-height: 180px;
 	padding-bottom: 5px;
 	background: #2c3e50;
-	color:#fff;
-	border:solid 1px #2d2d2d;
+	color:#fff;	
 	display: none;
 	font-size: 10px;
 	box-shadow: 2px 3px 3px #1D4F73;
@@ -16,7 +15,7 @@ div.calendarContainer
 
 div.calTop
 {
-	height: 50px;
+	height: 60px;
 	background:rgba(192, 57, 43,0.9);
 	border-bottom:solid 1px #c0392b;
 }
@@ -24,7 +23,7 @@ div.calTop
 div.calendarContainer table
 {
 	width:100%;
-	
+
 }
 
 div.calendarContainer table td
@@ -49,6 +48,9 @@ a.dayNum:hover
 	background: #c0392b;
 	font-weight: bold;
 	
+}
+.current-day{
+	background: #c0392b;
 }
 
 .triangle-up 

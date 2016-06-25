@@ -7,6 +7,7 @@
 
 var dateObject= {
 	date:new Date(),
+	today:new Date().toString().substr(0,15),
 	getDate:function(object){ 
 							if (object.value.trim() !="") 
 							 	this.date = new Date(object.value.substr(0,4),this.shortMonths.indexOf(object.value.substr(5,3)),1)
@@ -105,9 +106,9 @@ function datepicker(object){
 				else if(currentMonthDay++ -staticStart < dateObject.getNumdays())
 				{					
 					a.innerHTML = currentMonthDay -staticStart;
+					if(dateObject.today.toString() === new Date(dateObject.getYear(),dateObject.getMonth(),currentMonthDay -staticStart).toString().substr(0,15)) a.classList.add("current-day");	
 					td.appendChild(a);
 				}
-
 				tr.appendChild(td);				
 			}
 			farm_ttable.appendChild(tr);
@@ -133,7 +134,7 @@ function datepicker(object){
 				longDate.innerHTML = dateObject.getLongMonth() + ' ' + dateObject.getYear();				
 				calContainer.style.top = 10+event.target.offsetHeight+event.target.offsetTop +'px'
 				calContainer.style.left = event.target.offsetLeft	+'px'
-				calContainer.style.display="block";
+				calContainer.style.display="inline-block";
 				bind();	
 				calContainer.focus();	
 		},true);
