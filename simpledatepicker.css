@@ -9,7 +9,7 @@ div.calendarContainer
 	color:#fff;	
 	display: none;
 	font-size: 10px;
-	box-shadow: 2px 3px 3px #1D4F73;
+	box-shadow: 2px 3px 1px #34495e;
 	outline: none;
 }
 
@@ -53,10 +53,15 @@ a.dayNum:hover
 	background: #c0392b;
 }
 
+a#prevClick{
+
+transform: scale(-1, 1);
+}
+
 .triangle-up 
 { 
 	position: absolute;
-	top:-10px;
+	top:-7px;
 	left:5px;
 	width: 0; 
 	height: 0; 

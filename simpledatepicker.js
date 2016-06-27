@@ -1,10 +1,3 @@
-/*
-	Name        :simpledatepicker
-	Purpose     :Provide Database-friendly dates for web interfaces 
-	Created by  : Damion Reid
-	Date Created: Jun-25-2016	
-*/
-
 var dateObject= {
 	date:new Date(),
 	today:new Date().toString().substr(0,15),
@@ -53,14 +46,14 @@ function datepicker(object){
 	var tr = document.createElement('tr');
 	tr.className = "firstTr"
 	var td = document.createElement('td');
-	td.appendChild(new a("<<","prevClick"));
+	td.appendChild(new a("&#10148;","prevClick"));
 	tr.appendChild(td);
 	var longDate = document.createElement('td');
 	longDate.colSpan="5";
 	longDate.style.width="124px"
 	tr.appendChild(longDate);
 	var td = document.createElement('td');
-	td.appendChild(new a(">>","nextClick"));
+	td.appendChild(new a("&#10148;","nextClick"));
 	tr.appendChild(td);
 	head_ttable.appendChild(tr);
 
@@ -91,7 +84,7 @@ function datepicker(object){
 		if(calBody.firstChild !=null)
 			calBody.innerHTML="";
 
-		for(var ol=1;ol<=5;ol++)
+		for(var ol=1;ol<=6;ol++)
 		{
 			var tr = document.createElement('tr');				
 			for(var il=1;il<=7;il++)
@@ -102,7 +95,7 @@ function datepicker(object){
 				a.className = "dayNum";
 
 				if(currentMonthDay>il && ol==1)
-					td.innerHTML="";
+					td.innerHTML="";				
 				else if(currentMonthDay++ -staticStart < dateObject.getNumdays())
 				{					
 					a.innerHTML = currentMonthDay -staticStart;
