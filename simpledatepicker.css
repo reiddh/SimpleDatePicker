@@ -24,6 +24,7 @@ div.calTop
 div.calendarContainer table
 {
 	width:100%;
+	border-collapse: collapse;
 
 }
 
@@ -44,19 +45,29 @@ div.calendarContainer table td a
 	line-height: 25px;
 }
 
-a.dayNum:hover
+.current-day,a.dayNum:hover
 {
 	background: #c0392b;
-	font-weight: bold;
-	
-}
-.current-day{
-	background: #c0392b;
+	font-weight: bold;	
 }
 
 a#prevClick{
+  width: 0; 
+  height: 0; 
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;   
+  border-right:10px solid white; 
+	margin-left: 5px;
+}
 
-transform: scale(-1, 1);
+a#nextClick{
+  width: 0; 
+  height: 0; 
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;   
+  border-left:10px solid white; 	
+	float:right;
+	margin-right: 5px;
 }
 
 div.base{

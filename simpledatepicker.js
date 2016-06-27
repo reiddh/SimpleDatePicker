@@ -1,6 +1,6 @@
 var dateObject= {
 	date:new Date(),
-	today:new Date().toString().substr(0,15),
+	today:new Date().toUTCString().substr(0,16),
 	getDate:function(object){ 
 							if (object.value.trim() !="") 
 							 	this.date = new Date(object.value.substr(0,4),this.shortMonths.indexOf(object.value.substr(5,3)),1)
@@ -28,10 +28,10 @@ function datepicker(object){
 	var calTop = document.createElement('div');
 	var calBody = document.createElement('div');
 	var triangle = document.createElement('div');
-	var a = function(val,id)
+	var a = function(id)
 	{
 		var a = document.createElement('a')
-			a.innerHTML=val;
+			a.innerHTML="";
 			a.id = id;
 			a.addEventListener("click",moveMonth,true);	
 			return a;
@@ -46,14 +46,14 @@ function datepicker(object){
 	var tr = document.createElement('tr');
 	tr.className = "firstTr"
 	var td = document.createElement('td');
-	td.appendChild(new a("&#10148;","prevClick"));
+	td.appendChild(new a("prevClick"));
 	tr.appendChild(td);
 	var longDate = document.createElement('td');
 	longDate.colSpan="5";
 	longDate.style.width="124px"
 	tr.appendChild(longDate);
 	var td = document.createElement('td');
-	td.appendChild(new a("&#10148;","nextClick"));
+	td.appendChild(new a("nextClick"));
 	tr.appendChild(td);
 	head_ttable.appendChild(tr);
 
@@ -99,7 +99,7 @@ function datepicker(object){
 				else if(currentMonthDay++ -staticStart < dateObject.getNumdays())
 				{					
 					a.innerHTML = currentMonthDay -staticStart;
-					if(dateObject.today.toString() === new Date(dateObject.getYear(),dateObject.getMonth(),currentMonthDay -staticStart).toString().substr(0,15)) a.classList.add("current-day");	
+					if(dateObject.today === new Date(dateObject.getYear(),dateObject.getMonth(),currentMonthDay -staticStart).toUTCString().substr(0,16)) a.className += " current-day "
 					td.appendChild(a);
 				} else break;
 				tr.appendChild(td);				
@@ -107,14 +107,15 @@ function datepicker(object){
 			farm_ttable.appendChild(tr);
 		}
 		farm_ttable.appendChild(tr);
-		calBody.appendChild(farm_ttable)			
+		calBody.appendChild(farm_ttable)
+			;		
 	}
 
 	var baseDiv = document.createElement('div');
 	baseDiv.className = "base"
 	var clear = document.createElement('a');
 	clear.innerHTML="CLEAR"
-	clear.addEventListener('click',function(event){ parent.value=""},false);
+	clear.addEventListener('click',function(event){ parent.value=""; bind();},false);
 	
 	baseDiv.appendChild(clear);
 	calContainer.appendChild(baseDiv);
