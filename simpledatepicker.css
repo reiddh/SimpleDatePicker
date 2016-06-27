@@ -51,6 +51,12 @@ div.calendarContainer table td a
 	font-weight: bold;	
 }
 
+a.Selected-Date{
+	color: #f1c40f;
+	font-weight: bold;
+}
+
+
 a#prevClick{
   width: 0; 
   height: 0; 

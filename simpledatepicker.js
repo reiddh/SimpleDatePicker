@@ -17,7 +17,8 @@ var dateObject= {
 	getDayOfWeekMonthStarts:function(){return 1+ this.daysOfWeek.indexOf(this.getFirstDayOfMonth())},
 	getNumdays:function(){ return new Date(this.getYear(),this.getMonth()+1, 0).getDate()},
 	setDate:function(num){ this.date = new Date(this.date.setDate(num))},// to be deleted
-	getLongMonth:function(){ return this.monthsOfYear[this.getMonth()] }
+	getLongMonth:function(){ return this.monthsOfYear[this.getMonth()] },
+	getShortMonth:function(){return this.shortMonths[this.getMonth()]}
 }
 
 function datepicker(object){
@@ -93,13 +94,13 @@ function datepicker(object){
 				var a = document.createElement('a')
 				a.addEventListener("click",writeDate,false);
 				a.className = "dayNum";
-
 				if(currentMonthDay>il && ol==1)
-					td.innerHTML="";				
+					td.innerHTML="";									
 				else if(currentMonthDay++ -staticStart < dateObject.getNumdays())
 				{					
 					a.innerHTML = currentMonthDay -staticStart;
 					if(dateObject.today === new Date(dateObject.getYear(),dateObject.getMonth(),currentMonthDay -staticStart).toUTCString().substr(0,16)) a.className += " current-day "
+					if(parent && parent.value==dateObject.getYear()+"-"+dateObject.getShortMonth()+"-"+("0"+(currentMonthDay -staticStart).toString()).slice(-2)) a.className +=" Selected-Date";
 					td.appendChild(a);
 				} else break;
 				tr.appendChild(td);				
@@ -107,15 +108,14 @@ function datepicker(object){
 			farm_ttable.appendChild(tr);
 		}
 		farm_ttable.appendChild(tr);
-		calBody.appendChild(farm_ttable)
-			;		
+		calBody.appendChild(farm_ttable);
 	}
 
 	var baseDiv = document.createElement('div');
 	baseDiv.className = "base"
 	var clear = document.createElement('a');
 	clear.innerHTML="CLEAR"
-	clear.addEventListener('click',function(event){ parent.value=""; bind();},false);
+	clear.addEventListener('click',function(event){ parent.value="";dateObject.date=new Date(); bind();},false);
 	
 	baseDiv.appendChild(clear);
 	calContainer.appendChild(baseDiv);
@@ -146,7 +146,6 @@ function datepicker(object){
 	document.body.addEventListener("click",function(event)
 	{
 		if(!hasParentNode(event.target,calContainer)) calContainer.style.display = "none";	
-
 	},true);
 
 	function hasParentNode(objectNode,objectParent)
