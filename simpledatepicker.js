@@ -101,7 +101,7 @@ function datepicker(object){
 					a.innerHTML = currentMonthDay -staticStart;
 					if(dateObject.today.toString() === new Date(dateObject.getYear(),dateObject.getMonth(),currentMonthDay -staticStart).toString().substr(0,15)) a.classList.add("current-day");	
 					td.appendChild(a);
-				}
+				} else break;
 				tr.appendChild(td);				
 			}
 			farm_ttable.appendChild(tr);
@@ -109,7 +109,16 @@ function datepicker(object){
 		farm_ttable.appendChild(tr);
 		calBody.appendChild(farm_ttable)			
 	}
+
+	var baseDiv = document.createElement('div');
+	baseDiv.className = "base"
+	var clear = document.createElement('a');
+	clear.innerHTML="CLEAR"
+	clear.addEventListener('click',function(event){ parent.value=""},false);
 	
+	baseDiv.appendChild(clear);
+	calContainer.appendChild(baseDiv);
+
 	function writeDate(object)
 	{
 		parent.value = dateObject.getYear()+'-'+(dateObject.getLongMonth()).substr(0,3) +'-'+ ("0"+object.target.innerHTML).slice(-2);
