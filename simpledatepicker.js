@@ -2,10 +2,8 @@ var dateObject= {
 	date:new Date(),
 	today:new Date().toUTCString().substr(0,16),
 	getDate:function(object){ 
-							if (object.value.trim() !="") 
-							 	this.date = new Date(object.value.substr(0,4),this.shortMonths.indexOf(object.value.substr(5,3)),1)
-							else
-								this.date = new Date();
+							if (object.value.trim() !="") this.date = new Date(object.value.substr(0,4),this.shortMonths.indexOf(object.value.substr(5,3)),1)
+							else this.date = new Date();
 							return this.date;							
 							},
 	monthsOfYear:["January","February","March","April","May","June","July","August","September","October","November","December"],
@@ -16,13 +14,11 @@ var dateObject= {
 	getFirstDayOfMonth:function(){ return new Date(this.getYear(),this.getMonth(), 1).toString().substr(0,3)},
 	getDayOfWeekMonthStarts:function(){return 1+ this.daysOfWeek.indexOf(this.getFirstDayOfMonth())},
 	getNumdays:function(){ return new Date(this.getYear(),this.getMonth()+1, 0).getDate()},
-	setDate:function(num){ this.date = new Date(this.date.setDate(num))},// to be deleted
 	getLongMonth:function(){ return this.monthsOfYear[this.getMonth()] },
 	getShortMonth:function(){return this.shortMonths[this.getMonth()]}
 }
 
-function datepicker(object){
-	
+function datepicker(object){	
 	var parent;
 	var currentMonthDay;
 	var calContainer = document.createElement('div');
@@ -49,10 +45,19 @@ function datepicker(object){
 	var td = document.createElement('td');
 	td.appendChild(new a("prevClick"));
 	tr.appendChild(td);
-	var longDate = document.createElement('td');
-	longDate.colSpan="5";
-	longDate.style.width="124px"
-	tr.appendChild(longDate);
+	var td = document.createElement('td');
+	td.className="date-info";
+	td.colSpan="5";
+	td.style.width="124px"
+	var crntMonth = document.createElement('a');
+	crntMonth.addEventListener("click",bindMonths,false);
+	var crntYear = document.createElement('a');
+	crntYear.addEventListener("click",bindYears,false);
+	crntMonth.innerHTML=dateObject.getLongMonth();
+	crntYear.innerHTML=dateObject.getYear();
+	td.appendChild(crntMonth);
+	td.appendChild(crntYear);
+	tr.appendChild(td);
 	var td = document.createElement('td');
 	td.appendChild(new a("nextClick"));
 	tr.appendChild(td);
@@ -74,14 +79,14 @@ function datepicker(object){
 	document.body.appendChild(calContainer);
 ///////////////////////////////////////////////////////////////////////////////////////////////	
 
-	bind();
 	function bind()
 	{
 		var staticStart = currentMonthDay = dateObject.getDayOfWeekMonthStarts()
-		longDate.innerHTML = dateObject.getLongMonth() + ' ' + dateObject.getYear();
+
 		var farm_ttable = document.createElement('table');
 		var tr = document.createElement('tr');
-		
+		crntMonth.innerHTML=dateObject.getLongMonth();
+		crntYear.innerHTML=dateObject.getYear();		
 		if(calBody.firstChild !=null)
 			calBody.innerHTML="";
 
@@ -109,16 +114,69 @@ function datepicker(object){
 		}
 		farm_ttable.appendChild(tr);
 		calBody.appendChild(farm_ttable);
+
+		var baseDiv = document.createElement('div');
+		baseDiv.className = "base"
+		var clear = document.createElement('a');
+		clear.innerHTML="CLEAR"
+		clear.addEventListener('click',function(event){ parent.value="";dateObject.date=new Date(); bind();},false);
+		baseDiv.appendChild(clear);
+		calBody.appendChild(baseDiv);
 	}
 
-	var baseDiv = document.createElement('div');
-	baseDiv.className = "base"
-	var clear = document.createElement('a');
-	clear.innerHTML="CLEAR"
-	clear.addEventListener('click',function(event){ parent.value="";dateObject.date=new Date(); bind();},false);
-	
-	baseDiv.appendChild(clear);
-	calContainer.appendChild(baseDiv);
+	function bindMonths(){
+		calBody.innerHTML="";
+		var monthsPane = document.createElement('div');
+		monthsPane.className="monthsPane"		
+		for(var c=0;c<dateObject.shortMonths.length;c++)
+			{ 
+				var monthPanel = document.createElement('a');
+				monthPanel.innerHTML = dateObject.shortMonths[c];
+				monthPanel.id=c;
+				monthPanel.addEventListener("click",changeMonth,false);
+				monthsPane.appendChild(monthPanel);
+			}
+		calBody.appendChild(monthsPane);
+	}
+
+	function bindYears(){
+		calBody.innerHTML="";
+		var yearsPane = document.createElement('div');
+		yearsPane.className="yearsPane"	
+		
+		for(var c=(dateObject.getYear()-10);c<=(dateObject.getYear()+13);c++)
+			{ 
+				var yearsPanel = document.createElement('a');
+				yearsPanel.innerHTML =c;
+				yearsPanel.addEventListener("click",changeYear,false);
+				yearsPane.appendChild(yearsPanel);
+			}
+		calBody.appendChild(yearsPane);
+	}	
+
+	function changeMonth(event){
+		dateObject.date.setMonth(event.target.id);
+		if(parent.value) parent.value = parent.value.replace(parent.value.substr(5,3),dateObject.getShortMonth());
+		crntMonth.innerHTML=dateObject.getLongMonth();
+		bind();
+
+	}	
+
+	function changeYear(event){
+		dateObject.date.setFullYear(event.target.innerHTML);
+		if(parent.value) parent.value = parent.value.replace(parent.value.substr(0,4),dateObject.getYear());
+		crntMonth.innerHTML=dateObject.getYear();
+		bind();
+	}	
+
+	function loadMonths(event) {
+		console.log(event.target.innerHTML);
+
+	}
+	function loadYears(event) {
+
+		console.log(event.target.innerHTML);
+	}
 
 	function writeDate(object)
 	{
@@ -127,14 +185,14 @@ function datepicker(object){
 	}
 
 	var obj = document.querySelectorAll("input#datepicker,input.datepicker");
-	
 	for(var c=0;c<obj.length;c++)
 	{
 		obj[c].readOnly = "true";
 		obj[c].addEventListener("click",function(event){
 				parent = event.target;
 				dateObject.getDate(event.target);
-				longDate.innerHTML = dateObject.getLongMonth() + ' ' + dateObject.getYear();				
+				crntMonth.innerHTML=dateObject.getLongMonth();
+				crntYear.innerHTML=dateObject.getYear();			
 				calContainer.style.top = 10+event.target.offsetHeight+event.target.offsetTop +'px'
 				calContainer.style.left = event.target.offsetLeft	+'px'
 				calContainer.style.display="inline-block";
@@ -173,4 +231,4 @@ function datepicker(object){
 		}
 		bind();
 	}	
-}
+}  

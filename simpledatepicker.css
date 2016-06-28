@@ -1,3 +1,6 @@
+/*
+	Created by Damion Reid
+*/
 div.calendarContainer
 {
 	position: absolute;
@@ -16,23 +19,53 @@ div.calendarContainer
 
 div.calTop
 {
+	text-align: center;
 	height: 60px;
 	background:rgba(192, 57, 43,0.9);
 	border-bottom:solid 1px #c0392b;
 }
 
+div.calBody div.monthsPane a{
+	display: inline-block;
+	width:25%;
+	height: 50px;
+	line-height: 50px;		
+	text-align: center;
+	cursor: pointer;
+}
+
+div.monthsPane a:hover{
+	background: #B1392F;
+}
+
+div.calTop td.date-info a{	
+	display: inline;
+	margin-right: 10px;
+}
+
+
 div.calendarContainer table
 {
 	width:100%;
 	border-collapse: collapse;
-
 }
 
 div.calendarContainer table td
 {
 	text-align: center;
 	height: 25px;
+}
 
+div.yearsPane a{
+	display: inline-block;
+	width: 50px;
+	height: 25px;
+	line-height:25px;
+	text-align: center;	
+}
+
+div.yearsPane a:hover{
+	background: #B1392F;
 }
 
 div.calendarContainer table td a
@@ -43,6 +76,13 @@ div.calendarContainer table td a
 	cursor: pointer;
 	text-align: center;
 	line-height: 25px;
+}
+
+td.date-info a{
+	display: inline-table;
+	width: 100px;
+	width: auto;
+	
 }
 
 .current-day,a.dayNum:hover
